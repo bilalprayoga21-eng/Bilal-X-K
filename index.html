@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get to know me!</title>
+    <style>
+        /* ================= STYLE UTAMA (CSS) ================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fce4ec, #f8bbd0, #e1bee7);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #4a4a4a;
+        }
+
+        .card-container {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 30px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+        }
+
+        h1, h2, h3 {
+            color: #d81b60;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        /* Surat / Amplop Cover */
+        .envelope-btn {
+            background: #f48fb1;
+            color: white;
+            font-size: 3rem;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(244, 143, 177, 0.5);
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .envelope-btn:hover {
+            transform: scale(1.08);
+            background: #ec407a;
+        }
+
+        .click-hint {
+            display: inline-block;
+            background: #ffe082;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #5d4037;
+            margin-bottom: 15px;
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* Audio Player */
+        .music-player {
+            margin-top: 20px;
+            background: #fff0f5;
+            padding: 12px;
+            border-radius: 15px;
+            border: 1px dashed #f48fb1;
+        }
+
+        audio {
+            width: 100%;
+            height: 36px;
+            margin-top: 8px;
+        }
+
+        /* Menu Pilihan */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .menu-btn {
+            background: #ffffff;
+            border: 2px solid #f8bbd0;
+            padding: 14px;
+            border-radius: 16px;
+            font-weight: 600;
+            color: #c2185b;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        .menu-btn:hover {
+            background: #f8bbd0;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Modal Popup Content */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            text-align: left;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: popup 0.3s ease-out;
+        }
+
+        @keyframes popup {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-img {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            object-fit: cover;
+            max-height: 220px;
+        }
+
+        .close-btn {
+            background: #ec407a;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            float: right;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        /* Rating Stars */
+        .rating-box {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #f8bbd0;
+        }
+
+        .stars {
+            font-size: 1.8rem;
+            color: #ddd;
+            cursor: pointer;
+        }
+
+        .star.active {
+            color: #ffb300;
+        }
+
+        #thank-you {
+            display: none;
+            color: #e91e63;
+            font-weight: bold;
+            margin-top: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* Class Utility */
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="card-container">
+        <!-- ================= HALAMAN COVER ================= -->
+        <div id="cover-section">
+            <h1>get to know me ✨</h1>
+            <p>Klik surat di bawah ini buat cari tahu tentang aku!</p>
+
+            <div class="envelope-btn" onclick="openMenu()">💌</div>
+            <div class="click-hint">klik disini!</div>
+
+            <div class="music-player">
+                <p><b>ayoo sambil dengerin lagu ini 🎵</b></p>
+                <!-- Kamu bisa ganti src audio di bawah ini dengan mp3 milikmu -->
+                <audio controls id="bg-music">
+                    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                    Browser kamu tidak mendukung pemutar audio.
+                </audio>
+            </div>
+        </div>
+
+        <!-- ================= HALAMAN MENU UTAMA ================= -->
+        <div id="menu-section" class="hidden">
+            <h2>mau tau tentang apa niih? 🤔</h2>
+            
+            <div class="menu-grid">
+                <button class="menu-btn" onclick="openModal('modal-about')">Tentang Aku</button>
+                <button class="menu-btn" onclick="openModal('modal-hobby')">Hobby</button>
+                <button class="menu-btn" onclick="openModal('modal-wish')">Harapanku</button>
+                <button class="menu-btn" onclick="openModal('modal-game')">Lainnya (Game)</button>
+            </div>
+
+            <!-- Rating Section -->
+            <div class="rating-box">
+                <p><b>Rate my web! ✨</b></p>
+                <div class="stars">
+                    <span class="star" onclick="rate(1)">★</span>
+                    <span class="star" onclick="rate(2)">★</span>
+                    <span class="star" onclick="rate(3)">★</span>
+                    <span class="star" onclick="rate(4)">★</span>
+                    <span class="star" onclick="rate(5)">★</span>
+                </div>
+                <div id="thank-you">Terima kasih ya ratingnya! ❤️</div>
+            </div>
+
+            <br>
+            <button style="background: none; border: none; color: #888; cursor: pointer; text-decoration: underline;" onclick="closeMenu()">← kembali ke awal</button>
+        </div>
+    </div>
+
+    <!-- ================= MODAL / ISI POPUP MENU ================= -->
+
+    <!-- 1. Modal Tentang Aku -->
+    <div id="modal-about" class="modal">
+        <div class="modal-content">
+            <!-- Ganti URL foto di src -->
+            <img src="https://via.placeholder.com/400x250" class="modal-img" alt="Foto Profil">
+            <h3>Tentang Aku 👤</h3>
+            <p><b>Nama :</b> Nama Lengkap Kamu</p>
+            <p><b>Tanggal Lahir :</b> Bandung, 01 Januari 2010</p>
+            <p><b>Anak ke- :</b> 2 dari 2 bersaudara</p>
+            <p><b>Media Sosial :</b> @username_kamu</p>
+            <br>
+            <p style="font-style: italic; background: #fff0f5; padding: 10px; border-radius: 8px;">
+                "Tulis deskripsi singkat atau fun fact tentang kamu di sini. Misalnya minat kamu di bidang koding, olahraga, atau hal menarik lainnya!"
+            </p>
+            <button class="close-btn" onclick="closeModal('modal-about')">Tutup</button>
+        </div>
+    </div>
+
+    <!-- 2. Modal Hobby -->
+    <div id="modal-hobby" class="modal">
+        <div class="modal-content">
+            <img src="https://via.placeholder.com/400x250" class="modal-img" alt="Hobby">
+            <h3>Hobby ⚽🎮</h3>
+            <p>
+                "Di sini kamu bisa ceritakan hobby kamu! Misalnya suka main futsal, koding web, dengerin musik, atau nonton film favorit di waktu luang."
+            </p>
+            <button class="close-btn" onclick="closeModal('modal-hobby')">Tutup</button>
+        </div>
+    </div>
+
+    <!-- 3. Modal Harapanku -->
+    <div id="modal-wish" class="modal">
+        <div class="modal-content">
+            <img src="https://via.placeholder.com/400x250" class="modal-img" alt="Harapan">
+            <h3>Harapanku 🎯</h3>
+            <p>
+                "Tulis cita-cita atau target kamu ke depan! Misalnya sekolah/kuliah impian, karir yang ingin dicapai, atau mimpi-mimpi besarmu."
+            </p>
+            <button class="close-btn" onclick="closeModal('modal-wish')">Tutup</button>
+        </div>
+    </div>
+
+    <!-- 4. Modal Lainnya / Mini Game -->
+    <div id="modal-game" class="modal">
+        <div class="modal-content" style="text-align: center;">
+            <h3>Mini Game 🎮</h3>
+            <p>Klik tombol secepatnya dalam 5 detik!</p>
+            <br>
+            <h2 id="score-display">Skor: 0</h2>
+            <button id="game-btn" class="menu-btn" style="width: 100%; margin-top: 10px;" onclick="tapGame()">Mulai Klik!</button>
+            <button class="close-btn" onclick="closeModal('modal-game')">Tutup</button>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>
+        // Navigasi Cover ke Menu
+        function openMenu() {
+            document.getElementById('cover-section').classList.add('hidden');
+            document.getElementById('menu-section').classList.remove('hidden');
+        }
+
+        function closeMenu() {
+            document.getElementById('menu-section').classList.add('hidden');
+            document.getElementById('cover-section').classList.remove('hidden');
+        }
+
+        // Buka / Tutup Modal Popup
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        // Sistem Rating Bintang
+        function rate(stars) {
+            const allStars = document.querySelectorAll('.star');
+            allStars.forEach((star, index) => {
+                if (index < stars) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+            document.getElementById('thank-you').style.display = 'block';
+        }
+
+        // Mini Game Sederhana
+        let score = 0;
+        let isPlaying = false;
+        let timer;
+
+        function tapGame() {
+            const btn = document.getElementById('game-btn');
+            const scoreDisplay = document.getElementById('score-display');
+
+            if (!isPlaying) {
+                isPlaying = true;
+                score = 0;
+                scoreDisplay.textContent = "Skor: " + score;
+                btn.textContent = "KLIK SECEPATNYA!";
+                
+                timer = setTimeout(() => {
+                    isPlaying = false;
+                    btn.textContent = "Mulai Lagi";
+                    alert("Waktu habis! Skor kamu: " + score);
+                }, 5000);
+            } else {
+                score++;
+                scoreDisplay.textContent = "Skor: " + score;
+            }
+        }
+    </script>
+</body>
+              </html>
+
